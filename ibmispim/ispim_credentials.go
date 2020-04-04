@@ -128,9 +128,9 @@ var _ IspimCredentialsService = &IspimCredentialsServiceOp{}
 
 // Create a new Provider with a given configuration.
 func (ispim *IspimCredentialsServiceOp) Create(ctx context.Context, ismpimr *IspimCredentialRequest) (*IspimCredential, *Response, error) {
-	log.Printf("[DEBUG]: IspimIdpCredential: Printing in ISPIM Credential Create service")
+	log.Printf("[DEBUG]: IspimIdpCredential: Calling ISPIM Credential Create service")
 	if ismpimr == nil {
-		return nil, nil, errors.NewArgError("ovmr - input request", "cannot be nil")
+		return nil, nil, errors.NewArgError("ispimr - input request", "cannot be nil")
 	}
 
 	path := IspimIdpCredentialPath

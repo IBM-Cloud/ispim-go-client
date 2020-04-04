@@ -155,3 +155,5 @@ func (ispims *IspimSyncCredentialsServiceOp) Get(ctx context.Context, ispimId in
 
 	return &root, resp, err
 }
+
+// Delete - Add code to disconnect credentials - We do a lookup and then perform the disconnect -

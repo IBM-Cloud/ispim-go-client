@@ -30,17 +30,16 @@ type Client struct {
 	URL string
 	//Username string
 	//Password string
-	Token             string
-	Endpoint          string
-	Insecure          bool
-	client            *http.Client
-	BaseURL           *url.URL
-	IspimIdpProviders IspimIdpProvidersService
-	AdminDomains      AdminDomainsService
-	IspimResources    IspimResourcesService
-	IspimCredentials  IspimCredentialsService
-	//IspimSyncCredentials IspimSyncCredentialsService
-
+	Token                string
+	Endpoint             string
+	Insecure             bool
+	client               *http.Client
+	BaseURL              *url.URL
+	IspimIdpProviders    IspimIdpProvidersService
+	AdminDomains         AdminDomainsService
+	IspimResources       IspimResourcesService
+	IspimCredentials     IspimCredentialsService
+	IspimSyncCredentials IspimSyncCredentialsService
 }
 
 const (
@@ -97,9 +96,6 @@ func addOptions(s string, opt interface{}) (string, error) {
 func NewClient(token, endpoint string, insecure bool) (*Client, error) {
 	/* Make sure that you add the client service to the Op - Refer to line 132 */
 
-	//log.Printf("[DEBUG] NewClient Create with username %s",username)
-	//log.Printf("[DEBUG] NewClient Create with username %s",password)
-
 	baseUrl := os.Getenv("ISPIM_URL")
 
 	baseURL, _ := url.Parse(baseUrl)
@@ -116,7 +112,7 @@ func NewClient(token, endpoint string, insecure bool) (*Client, error) {
 	c.AdminDomains = &AdminDomainsServiceOp{client: c}
 	c.IspimResources = &IspimResourcesServiceOp{client: c}
 	c.IspimCredentials = &IspimCredentialsServiceOp{client: c}
-	//c.IspimSyncCredentials = &IspimSyncCredentialsServiceOp{client: c}
+	c.IspimSyncCredentials = &IspimSyncCredentialsServiceOp{client: c}
 
 	return c, nil
 
