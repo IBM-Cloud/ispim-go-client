@@ -195,11 +195,11 @@ func (ispims *IspimCredentialsServiceOp) Delete(ctx context.Context, ispim_crede
 
 	log.Printf("[DEBUG] Printing the from the GET CALL requestNumber %s", ispim_credential_id)
 
-	getPath := fmt.Sprintf("%s%s", IspimIdpCredentialPath, ispim_credential_id)
+	deletePath := fmt.Sprintf("%s", ispim_credential_id)
 
-	log.Printf("[DEBUG] In the delete method - the path is %s", getPath)
+	log.Printf("[DEBUG] In the delete method - the path is %s", deletePath)
 
-	req, err := ispims.client.NewRequest(ctx, http.MethodDelete, getPath, nil)
+	req, err := ispims.client.NewRequest(ctx, http.MethodDelete, deletePath, nil)
 	if err != nil {
 		return nil, err
 	} else {

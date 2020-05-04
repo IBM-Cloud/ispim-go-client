@@ -5,7 +5,7 @@ import (
 	"github.com/IBM-Cloud/ispim-go-client/errors"
 	"log"
 	"net/http"
-	//"strconv"
+
 	"fmt"
 )
 
@@ -179,7 +179,7 @@ func (ispims *IspimResourcesServiceOp) Get(ctx context.Context, ispimId string) 
 	if err != nil {
 		return nil, nil, err
 	} else {
-		log.Printf("[DEBUG]: ISIM-Provider:  Successfully executed the GetRequest Call for IspimResource")
+		log.Printf("[DEBUG]: ISIM-Resource:  Successfully executed the GetRequest Call for IspimResource")
 
 	}
 
@@ -202,15 +202,15 @@ func (ispims *IspimResourcesServiceOp) Delete(ctx context.Context, ispim_resourc
 
 	log.Printf("[DEBUG] Printing the from the GET CALL requestNumber %s", ispim_resource_id)
 
-	getPath := fmt.Sprintf("%s%s", ispimresourceGetPath, ispim_resource_id)
+	deletePath := fmt.Sprintf("%s", ispim_resource_id)
 
-	log.Printf("[DEBUG] In the delete method - the path is %s", getPath)
+	log.Printf("[DEBUG] In the delete method - the path is %s", deletePath)
 
-	req, err := ispims.client.NewRequest(ctx, http.MethodDelete, getPath, nil)
+	req, err := ispims.client.NewRequest(ctx, http.MethodDelete, deletePath, nil)
 	if err != nil {
 		return nil, err
 	} else {
-		log.Printf("[DEBUG]: ISIM-Provider:  Successfully executed the GetRequest Call for IspimResource")
+		log.Printf("[DEBUG]: ISIM-Resource:  Successfully executed the Delete Call for IspimResource")
 
 	}
 
