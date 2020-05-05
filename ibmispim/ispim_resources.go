@@ -206,7 +206,7 @@ func (ispims *IspimResourcesServiceOp) Delete(ctx context.Context, ispim_resourc
 
 	log.Printf("[DEBUG] In the delete method - the path is %s", deletePath)
 
-	req, err := ispims.client.NewRequest(ctx, http.MethodDelete, deletePath, nil)
+	req, err := ispims.client.NewRequest(ctx, http.MethodDelete, ispim_resource_id, nil)
 	if err != nil {
 		return nil, err
 	} else {
