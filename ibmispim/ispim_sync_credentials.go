@@ -11,8 +11,6 @@ import (
 
 const IspimSyncCredentialPath = "/ispim/rest/credentials"
 
-//const IspimSyncCredentialPostPath="/ispim/rest/services/"
-
 type IspimSyncCredentialsService interface {
 	Get(context.Context, int) (*IspimSyncCredential, *Response, error)
 	Create(context.Context, *IspimSyncCredentialRequest, string) (*IspimSyncResponse, *Response, error)
@@ -42,6 +40,9 @@ type SyncCredentialRequest struct {
 
 type IspimSyncCredentials struct {
 	Href string `json:"href"`
+}
+
+type DisconnectCredentialRequest struct {
 }
 
 /// End of the Request
