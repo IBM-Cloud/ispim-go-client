@@ -24,8 +24,8 @@ type IspimRequestsServiceOp struct {
 
 ///Start of the response
 type IspimRequestResponse struct {
-	Links                  Links      `json:"_links"`
-	IspimRequestAttributes Attributes `json:"_attributes"`
+	Links                  Links                  `json:"_links"`
+	IspimRequestAttributes IspimRequestAttributes `json:"_attributes"`
 }
 type Children struct {
 	Href string `json:"href"`
