@@ -40,6 +40,7 @@ type Client struct {
 	IspimResources       IspimResourcesService
 	IspimCredentials     IspimCredentialsService
 	IspimSyncCredentials IspimSyncCredentialsService
+	IspimRequests        IspimRequestsService
 }
 
 const (
@@ -113,6 +114,7 @@ func NewClient(token, endpoint string, insecure bool) (*Client, error) {
 	c.IspimResources = &IspimResourcesServiceOp{client: c}
 	c.IspimCredentials = &IspimCredentialsServiceOp{client: c}
 	c.IspimSyncCredentials = &IspimSyncCredentialsServiceOp{client: c}
+	c.IspimRequests = &IspimRequestsServiceOp{client: c}
 
 	return c, nil
 
@@ -189,7 +191,7 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 		return nil, err
 	}
 	log.Printf("Printing the response post calls %#v", resp)
-	log.Printf("Prrinting RESPONSE DATA %s", resp.Header.Get("Set-Cookie"))
+	log.Printf("Printing RESPONSE DATA %s", resp.Header.Get("Set-Cookie"))
 
 	if err != nil {
 		return nil, err
