@@ -15,8 +15,7 @@ type IspimSyncCredentialsService interface {
 	Get(context.Context, int) (*IspimSyncCredential, *Response, error)
 	Create(context.Context, *IspimSyncCredentialRequest, string) (*IspimSyncResponse, *Response, error)
 	//Update(context.Context, int, *IspimIdpCredentialUpdateRequest) (*IspimIdpCredential, *Response, error)
-	//Delete(context.Context, *IspimIdpCredentialDeleteRequest) (*IspimIdpCredential, *Response, error)
-
+	Delete(context.Context, *IspimCredDisconnectCredentialRequest) (*IspimCredDisconnectResponse, *Response, error)
 }
 
 type IspimSyncCredentialsServiceOp struct {
@@ -42,7 +41,15 @@ type IspimSyncCredentials struct {
 	Href string `json:"href"`
 }
 
-type DisconnectCredentialRequest struct {
+//Start of the DISCONNECT STRUCTURE
+
+type IspimCredDisconnectCredentialRequest struct {
+	BatchAction string        `json:"batchAction"`
+	ChangesList []ChangesList `json:"changesList"`
+}
+
+type ChangesList struct {
+	Links Links `json:"_links"`
 }
 
 /// End of the Request
@@ -60,6 +67,22 @@ type IspimSyncResponseLinks struct {
 }
 
 /// End of the response
+
+type IspimCredDisconnectResponse struct {
+	IspimCredDisconnectResponseList []IspimCredDisconnectResponseList `json:"responseList"`
+	OverAllStatus                   string                            `json:"overAllStatus"`
+}
+
+type IspimCredentialDisconnectResponse struct {
+	Metadata Metadata `json:"metadata"`
+	Status   int      `json:"status"`
+}
+
+type IspimCredDisconnectResponseList struct {
+	RequestAction                     string                            `json:"requestAction"`
+	IspimCredentialDisconnectResponse IspimCredentialDisconnectResponse `json:"response"`
+	SelfLink                          SelfLink                          `json:"selfLink"`
+}
 
 type IspimSyncCredential struct {
 	IspimSyncCredentialResponseList []IspimSyncCredentialResponseList `json:"responseList"`
@@ -92,10 +115,6 @@ func (ispim *IspimSyncCredentialsServiceOp) Create(ctx context.Context, ismpimr 
 		return nil, nil, errors.NewArgError("ispimr - input request", "cannot be nil")
 	}
 
-	//log.Printf("[DEBUG] Printing the url id %s",ismpimr.CredentialLink)
-
-	//path := IspimSyncCredentialPostPath
-
 	log.Printf("[DEBUG ] - The idpurl for the identityprovider is %s", idpurl)
 
 	credPath := "/credentials"
@@ -106,7 +125,7 @@ func (ispim *IspimSyncCredentialsServiceOp) Create(ctx context.Context, ismpimr 
 	if err != nil {
 		return nil, nil, err
 	} else {
-		log.Printf("[DEBUG]: IspimIdpCredential:  Successfully executed the NewRequest Call for IspimIdpCredential")
+		log.Printf("[DEBUG]: IspimSyncCredentialsService:  Successfully executed the NewRequest Call for IspimIdpCredential")
 
 	}
 
@@ -121,8 +140,8 @@ func (ispim *IspimSyncCredentialsServiceOp) Create(ctx context.Context, ismpimr 
 		return nil, resp, err
 	}
 
-	log.Printf("[DEBUG]: isimProvider: Printing the response %d", resp.StatusCode)
-	log.Printf("[DEBUG]: isimProvider: Printing the response from the call %#v\n", root)
+	log.Printf("[DEBUG]: IspimSyncCredentialsService: Printing the response %d", resp.StatusCode)
+	log.Printf("[DEBUG]: IspimSyncCredentialsService: Printing the response from the call %#v\n", root)
 
 	return &root, resp, err
 }
@@ -142,7 +161,7 @@ func (ispims *IspimSyncCredentialsServiceOp) Get(ctx context.Context, ispimId in
 	if err != nil {
 		return nil, nil, err
 	} else {
-		log.Printf("[DEBUG]: ISIM-Provider:  Successfully executed the GetRequest Call for ISIMProvider")
+		log.Printf("[DEBUG]: IspimSyncCredentialsService:  Successfully executed the GetRequest Call for ISIMProvider")
 
 	}
 
@@ -158,3 +177,34 @@ func (ispims *IspimSyncCredentialsServiceOp) Get(ctx context.Context, ispimId in
 }
 
 // Delete - Add code to disconnect credentials - We do a lookup and then perform the disconnect -
+
+func (ispims *IspimSyncCredentialsServiceOp) Delete(ctx context.Context, ismpimr *IspimCredDisconnectCredentialRequest) (*IspimCredDisconnectResponse, *Response, error) {
+
+	log.Printf("[DEBUG] In the delete method for disconnect credentials- the path is %s", IspimIdpCredentialPath)
+
+	req, err := ispims.client.NewRequest(ctx, http.MethodPut, IspimIdpCredentialPath, ismpimr)
+
+	if err != nil {
+		return nil, nil, err
+	} else {
+		log.Printf("[DEBUG]: IspimSyncCredentialsService:  Successfully executed the Disconnect  Call for IspimCredential")
+
+	}
+
+	root := IspimCredDisconnectResponse{}
+
+	resp, err := ispims.client.Do(ctx, req, &root)
+
+	if err != nil {
+		//return nil, resp, err
+		log.Fatal(err)
+
+		return nil, resp, err
+	}
+
+	log.Printf("[DEBUG]: IspimSyncCredentialsService: Printing the response %d", resp.StatusCode)
+	log.Printf("[DEBUG]: IspimSyncCredentialsService: Printing the response from the call %#v\n", root)
+
+	return &root, resp, err
+
+}
