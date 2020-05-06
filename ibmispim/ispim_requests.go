@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 )
 
-const IspimRequestPath = "/ispim/rest/requests"
+const IspimRequestPath = "/ispim/rest/requests/"
 
 type IspimRequestsService interface {
-	Get(context.Context, int) (*IspimRequestResponse, *Response, error)
+	Get(context.Context, string) (*IspimRequestResponse, *Response, error)
 }
 
 type IspimRequestsServiceOp struct {
@@ -56,12 +55,12 @@ var _ IspimRequestsService = &IspimRequestsServiceOp{}
 
 // Get the Configuration for the IspimRequestsServiceOp created
 
-func (ispims *IspimRequestsServiceOp) Get(ctx context.Context, ispimId int) (*IspimRequestResponse, *Response, error) {
-	requestNumber := strconv.Itoa(ispimId)
+func (ispims *IspimRequestsServiceOp) Get(ctx context.Context, ispimId string) (*IspimRequestResponse, *Response, error) {
+	//requestNumber := strconv.Itoa(ispimId)
 
-	log.Printf("[DEBUG] Printing the from the GET CALL requestNumber %s", requestNumber)
+	log.Printf("[DEBUG] Printing the from the GET CALL requestNumber %s", ispimId)
 
-	getPath := fmt.Sprintf("%s%s", IspimRequestPath, requestNumber)
+	getPath := fmt.Sprintf("%s%s", IspimRequestPath, ispimId)
 
 	log.Printf("[DEBUG] In the get method - the path is %s", getPath)
 
